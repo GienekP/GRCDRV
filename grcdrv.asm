@@ -258,7 +258,7 @@ VCAS		lda #$02		; absence DOS
 		lda DEST+1
 		sta CASINI+1
 		sta DOSINI+1
-		sta	DOSVEC+1
+		sta DOSVEC+1
 		
 		ldy #(R0-GNEWDEV)	; calc R0 address and FILL RTS
 		lda #$60
@@ -287,7 +287,7 @@ end		pla			; restore $1D
 ;-----------------------------------------------------------------------		
 ; MAIN PROCEDURE - call NEWDEV
 ;-----------------------------------------------------------------------		
-GNEWDEV	lda #$0F
+GNEWDEV		lda #$0F
 		sta COLBAKS	
 		clc			; incrase MEMLO
 		lda MEMLO
@@ -316,13 +316,13 @@ GDRIVER	.WORD OPEN-1
 ;-----------------------------------------------------------------------		
 ; GRCINIT
 ;-----------------------------------------------------------------------		
-GRCINIT	lda #$08
+GRCINIT		lda #$08
 		sta COLBAKS
 		rts
 ;-----------------------------------------------------------------------		
 ; OPEN routine
 ;-----------------------------------------------------------------------		
-OPEN	lda ICAX1Z
+OPEN		lda ICAX1Z
 		cmp #$0C
 		beq IOOP
 		cmp #$08
@@ -333,24 +333,24 @@ OPEN	lda ICAX1Z
 		rts
 		
 		;open for INPUT/OUTPUT
-IOOP	ldx ICAX2Z
+IOOP		ldx ICAX2Z
 PATCH	
 OK		ldy #$01
 		rts
 		
 		;open for OUTPUT only
-OPOP	ldx #$FF
+OPOP		ldx #$FF
 		clc
 		bcc PATCH
 		
 		;open for INPUT only
-IPOP	ldx #$00
+IPOP		ldx #$00
 		clc
 		bcc PATCH
 ;-----------------------------------------------------------------------		
 ; CLOSE routine
 ;-----------------------------------------------------------------------		
-CLOSE	ldx #$00
+CLOSE		ldx #$00
 		ldy #$01
 		rts		
 ;-----------------------------------------------------------------------		
