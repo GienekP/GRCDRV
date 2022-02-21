@@ -6,7 +6,7 @@
 ;
 ;-----------------------------------------------------------------------		
 DEST    = $00			; use address LNFLG & NGFLAG as a temp
-PTR		= $1D
+PTR	= $1D
 ;-----------------------------------------------------------------------		
 CASINI  = $02
 WARMST  = $08
@@ -70,7 +70,7 @@ START	lda DEST+1		; store LNFLG & NGFLAG
 		lda #$60
 		sta CASBUF+12
 		jsr CASBUF		; PC address to stack
-MARK	clc				; <-this address-1 is detected
+MARK		clc			; <-this address-1 is detected
 		lda DEST
 		adc #<(GNEWDEV+1-MARK)
 		sta PTR
@@ -84,7 +84,7 @@ MARK	clc				; <-this address-1 is detected
 		lda MEMLO+1
 		sta DEST+1
 		
-		clc				; incrase MEMLO
+		clc			; incrase MEMLO
 		lda DEST
 		adc #<(GENDPRO+1-GNEWDEV)
 		sta MEMLO
@@ -144,7 +144,7 @@ L1		lda MEMLO
 		sta PTR+1
 		
 		; Recalculate VECTOR TABLE
-		clc				; find GNEWDEV address
+		clc			; find GNEWDEV address
 		lda DEST
 		adc #<(GDRIVER-GNEWDEV)
 		sta DEST
@@ -248,7 +248,7 @@ L1		lda MEMLO
 		cmp #$00
 		bne DOS
 		
-VCAS	lda #$02		; absence DOS
+VCAS		lda #$02		; absence DOS
 		sta BOOT?
 
 		lda DEST
@@ -275,11 +275,11 @@ DOS		;lda PTR		; set new DOSINI adress
 		;lda PTR+1
 		;sta DOSINI+1
 
-end		pla				; restore $1D
+end		pla			; restore $1D
 		sta PTR
 		pla
 		sta PTR+1
-		pla				; restore LNFLG & NGFLAG
+		pla			; restore LNFLG & NGFLAG
 		sta DEST
 		pla
 		sta DEST+1
@@ -289,7 +289,7 @@ end		pla				; restore $1D
 ;-----------------------------------------------------------------------		
 GNEWDEV	lda #$0F
 		sta COLBAKS	
-		clc				; incrase MEMLO
+		clc			; incrase MEMLO
 		lda MEMLO
 		adc #<(GENDPRO+1-GNEWDEV)
 		sta MEMLO
@@ -300,7 +300,7 @@ GNEWDEV	lda #$0F
 		ldy #<GDRIVER
 		lda #>GDRIVER
 		jsr NEWDEV
-		rts				; <- maybe NOP ?
+		rts			; <- maybe NOP ?
 R0		jmp R0			; <- smart jump	(dynamic)	
 ;-----------------------------------------------------------------------		
 ; VECTOR TABLE
