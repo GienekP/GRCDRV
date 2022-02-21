@@ -39,7 +39,7 @@ NEWDEV  = $EEBC
 		ORG $4000
 		RUN START
 			
-START	lda DEST+1		; store LNFLG & NGFLAG
+START		lda DEST+1		; store LNFLG & NGFLAG
 		pha
 		lda DEST
 		pha
