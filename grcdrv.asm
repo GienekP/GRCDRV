@@ -5,7 +5,7 @@
 ;
 ;-----------------------------------------------------------------------		
 DEST    = $00			; use address LNFLG & NGFLAG as a temp
-PTR		= $1D
+PTR	= $1D
 ;-----------------------------------------------------------------------		
 CASINI  = $02
 WARMST  = $08
@@ -38,8 +38,8 @@ NEWDEV  = $EEBC
 		ORG $4000
 		RUN START
 		
-		pla				; for BASIC
-START	lda DEST+1		; store LNFLG & NGFLAG
+		pla			; for BASIC
+START		lda DEST+1		; store LNFLG & NGFLAG
 		pha
 		lda DEST
 		pha
@@ -70,7 +70,7 @@ START	lda DEST+1		; store LNFLG & NGFLAG
 		lda #$60
 		sta CASBUF+12
 		jsr CASBUF		; PC address to stack
-MARK	clc				; <-this address-1 is detected
+MARK		clc			; <-this address-1 is detected
 		lda DEST
 		adc #<(GNEWDEV+1-MARK)
 		sta PTR
@@ -84,7 +84,7 @@ MARK	clc				; <-this address-1 is detected
 		lda MEMLO+1
 		sta DEST+1
 		
-		clc				; incrase MEMLO
+		clc			; incrase MEMLO
 		lda DEST
 		adc #<(GENDPRO+1-GNEWDEV)
 		sta MEMLO
@@ -105,7 +105,7 @@ MARK	clc				; <-this address-1 is detected
 		pha	
 		
 		ldx #0
-CPYLOOP	lda (PTR,X)
+CPYLOOP		lda (PTR,X)
 		sta (DEST,X)
 	
 		clc
@@ -144,7 +144,7 @@ L1		lda MEMLO
 		sta PTR+1
 		
 		; Recalculate VECTOR TABLE
-		clc				; find GNEWDEV address
+		clc			; find GNEWDEV address
 		lda DEST
 		adc #<(GDRIVER-GNEWDEV)
 		sta DEST
@@ -252,7 +252,7 @@ L1		lda MEMLO
 		cmp #$00
 		bne END
 		
-VCAS	lda #$02		; absence DOS
+VCAS		lda #$02		; absence DOS
 		sta BOOT?
 
 		lda DEST
@@ -264,11 +264,11 @@ VCAS	lda #$02		; absence DOS
 		sta DOSINI+1
 		sta DOSVEC+1
 		
-END		pla				; restore $1D
+END		pla			; restore $1D
 		sta PTR
 		pla
 		sta PTR+1
-		pla				; restore LNFLG & NGFLAG
+		pla			; restore LNFLG & NGFLAG
 		sta DEST
 		pla
 		sta DEST+1
@@ -276,9 +276,9 @@ END		pla				; restore $1D
 ;-----------------------------------------------------------------------		
 ; MAIN PROCEDURE - call NEWDEV
 ;-----------------------------------------------------------------------		
-GNEWDEV	lda #$0F
+GNEWDEV		lda #$0F
 		sta COLBAKS	
-		clc				; incrase MEMLO
+		clc			; incrase MEMLO
 		lda MEMLO
 		adc #<(GENDPRO+1-GNEWDEV)
 		sta MEMLO
@@ -292,7 +292,7 @@ R1		ldy #<GDRIVER
 ;-----------------------------------------------------------------------		
 ; VECTOR TABLE
 ;-----------------------------------------------------------------------		
-GDRIVER	.WORD OPEN-1
+GDRIVER		.WORD OPEN-1
 		.WORD CLOSE-1
 		.WORD GET-1
 		.WORD PUT-1
@@ -309,7 +309,7 @@ GRCINIT	lda #$08
 ;-----------------------------------------------------------------------		
 ; OPEN routine
 ;-----------------------------------------------------------------------		
-OPEN	lda ICAX1Z
+OPEN		lda ICAX1Z
 		cmp #$0C
 		beq IOOP
 		cmp #$08
@@ -320,24 +320,24 @@ OPEN	lda ICAX1Z
 		rts
 		
 		;open for INPUT/OUTPUT
-IOOP	ldx ICAX2Z
+IOOP		ldx ICAX2Z
 PATCH	
 OK		ldy #$01
 		rts
 		
 		;open for OUTPUT only
-OPOP	ldx #$FF
+OPOP		ldx #$FF
 		clc
 		bcc PATCH
 		
 		;open for INPUT only
-IPOP	ldx #$00
+IPOP		ldx #$00
 		clc
 		bcc PATCH
 ;-----------------------------------------------------------------------		
 ; CLOSE routine
 ;-----------------------------------------------------------------------		
-CLOSE	ldx #$00
+CLOSE		ldx #$00
 		ldy #$01
 		rts		
 ;-----------------------------------------------------------------------		
@@ -353,10 +353,10 @@ PUT		sta COLBAK
 ;-----------------------------------------------------------------------		
 ; STATUS routine
 ;-----------------------------------------------------------------------		
-STATUS  rts
+STATUS  	rts
 ;-----------------------------------------------------------------------		
 ; Nothing special, just a marking of the end
 ;-----------------------------------------------------------------------		
 SPEC
-GENDPRO rts
+GENDPRO 	rts
 ;-----------------------------------------------------------------------		
