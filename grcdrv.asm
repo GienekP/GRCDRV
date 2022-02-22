@@ -15,7 +15,7 @@ NEWDEV  = $EEBC
 ;-----------------------------------------------------------------------		
 ; MAIN PROCEDURE - call NEWDEV
 ;-----------------------------------------------------------------------		
-GNEWDEV	lda #$0F
+GNEWDEV		lda #$0F
 		sta COLBAKS	
 		clc				; incrase MEMLO
 		lda MEMLO
