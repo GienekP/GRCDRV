@@ -22,7 +22,8 @@ CASADD  = LOAD-(CASPRC-CASSTA)
 ;-----------------------------------------------------------------------	
 		OPT h-f+
 		ORG CASADD
-CASSTA	dta $00
+		
+CASSTA		dta $00
 		dta [(CASSTP-CASSTA)/128+1]
 		dta <CASADD
 		dta >CASADD
@@ -59,7 +60,7 @@ CASSTA	dta $00
 
 		jmp (RESETVEC)
 				
-ISBASIC	clc
+ISBASIC		clc
 		rts
 ;-----------------------------------------------------------------------		
 .ENDL
