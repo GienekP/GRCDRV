@@ -26,24 +26,16 @@ RUNAD   = $02E0
 COLBAK  = $D01A
 
 		ORG $0600
-		RUN START	
-START	lda #$00
+		RUN START
+		
+START		lda #$00
 		
 		sta SBL
 		sta SBH
 		sta EBL
-		sta EBH
+		sta EBH	
 
-		lda <game	; Tylko do testow
-		sta SAL
-		lda >game
-		sta SAH		
-		lda <end-1
-		sta EAL
-		lda >end-1
-		sta EAH		
-
-LOADER	lda <RETURN
+LOADER		lda <RETURN
 		sta INITAD
 		lda >RETURN
 		sta INITAD+1
@@ -53,7 +45,7 @@ LOADER	lda <RETURN
 		lda >NORUN
 		sta RUNAD+1
 		
-		jsr	NEWBANK
+		jsr NEWBANK
 		
 		ldx #$00	; X zawsze 0
 		ldy #$01	; Y zawsze 1 RAM-CART OFF
@@ -61,7 +53,7 @@ LOADER	lda <RETURN
 		lda (SAL,X)	; Test [ $FF $FF ]
 		cmp #$FF
 		beq l0
-NOXEX	lda $14
+NOXEX		lda $14
 		sta COLBAKS
 		jmp NOXEX
 		rts	
@@ -71,7 +63,7 @@ l0		jsr NEXT
 		bne NOXEX
 		jsr NEXT
 		
-NEWBL	jsr TESTEND	; Czy są nowe bloki
+NEWBL		jsr TESTEND	; Czy są nowe bloki
 		lda (SAL,X)	; Adres startu
 		sta CNTL
 		jsr NEXT
@@ -86,9 +78,9 @@ NEWBL	jsr TESTEND	; Czy są nowe bloki
 		sta ENTH
 		jsr NEXT
 				
-COPY	lda D50		; Wlaczamy RAM-CART
+COPY		lda D50		; Wlaczamy RAM-CART
 		sta $D501
-		lda (SAL,X) ; Kopiowanie danej
+		lda (SAL,X) 	; Kopiowanie danej
 		sty $D501	; Wylaczamy RAM-CART
 		sta (CNTL,X)
 		sta COLBAK	
@@ -100,14 +92,14 @@ COPY	lda D50		; Wlaczamy RAM-CART
 		cmp ENTH
 		beq GOINIT
 		
-NOTEND	inc CNTL	; Zwiększamy adres docelowy
+NOTEND		inc CNTL	; Zwiększamy adres docelowy
 		bne l1
 		inc CNTH
 l1		jsr NEXT
 		jmp COPY
 		
-TRIK	jmp (INITAD); Koniec bloku - szybciej skoczyc na RTS niz badac
-GOINIT  jsr TRIK
+TRIK		jmp (INITAD)	; Koniec bloku - szybciej skoczyc na RTS niz badac
+GOINIT  	jsr TRIK
 
 		ldx #$00	; X zawsze 0
 		ldy #$01	; Y zawsze 1 RAM-CART OFF
@@ -118,7 +110,7 @@ GOINIT  jsr TRIK
 		sta INITAD+1			
 
 		jsr NEXT
-		lda (SAL,X) ; Czy może FF
+		lda (SAL,X) 	; Czy może FF
 		cmp #$FF	; Wersja z nowym [ $FF $FF ]
 		bne l3
 		jsr NEXT
@@ -129,7 +121,7 @@ GOINIT  jsr TRIK
 l2		jsr NEXT
 l3		jmp NEWBL	
 		
-NEXT	jsr TESTEND
+NEXT		jsr TESTEND
 		inc SAL		; Nastepny adres RAM-CARTa
 		bne	RETURN
 		inc SAH
@@ -145,7 +137,7 @@ NEXT	jsr TESTEND
 		stx SBL
 		inc SBH
 		
-NEWBANK lda SBL		; Przełączenie nowego banku
+NEWBANK 	lda SBL		; Przełączenie nowego banku
 		and #$3F
 		asl
 		asl
@@ -155,9 +147,9 @@ NEWBANK lda SBL		; Przełączenie nowego banku
 		lda SBH
 		sta $D501
 		
-RETURN	rts			; Powrot z lokalnych okolicznych funkcji
+RETURN		rts		; Powrot z lokalnych okolicznych funkcji
 		
-TESTEND	lda SAL		; Czy koniec danych
+TESTEND		lda SAL		; Czy koniec danych
 		cmp EAL
 		bne RETURN
 		lda SAH
@@ -171,54 +163,6 @@ TESTEND	lda SAL		; Czy koniec danych
 		bne RETURN	
 		jmp (RUNAD)
 		
-NORUN	jmp NORUN
-/*
-DEBUG	lda <hex
-		sta DBG
-		lda >hex
-		sta DBG+1
-			
-		lda CNTH
-		and #$0F
-		tay
-		lda (DBG),Y
-		ldy #$01
-		sta (88),Y	
-		lda CNTH
-		and #$F0
-		lsr
-		lsr
-		lsr
-		lsr
-		tay
-		lda (DBG),Y
-		ldy #$00
-		sta (88),Y
-		lda CNTL
-		and #$0F
-		tay
-		lda (DBG),Y
-		ldy #$03
-		sta (88),Y		
-		lda CNTL
-		and #$F0
-		lsr
-		lsr
-		lsr
-		lsr
-		tay
-		lda (DBG),Y
-		ldy #$02
-		sta (88),Y		
-		rts	
-hex		dta d'0123456789ABCDEF'
-*/
-game	;dta $FF, $FF, $C5, $02, $C6, $02, $02, $04
-		;dta $FF, $FF, $C8, $02, $C8, $02, $1F
-		;ins "basketball.xex"
-		;ins "gunpowdercharlie.xex"
-		ins "asteroids.xex"
-		;ins "seawolf.xex"
-		;ins "riverraid.xex"
-		;ins "olympicskier.xex"
-end 	dta $00
+NORUN		jmp NORUN
+
+end 		dta $00
