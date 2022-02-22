@@ -28,13 +28,7 @@ COLBAK  = $D01A
 		ORG $0600
 		RUN START
 		
-START		lda #$00
-		
-		sta SBL
-		sta SBH
-		sta EBL
-		sta EBH	
-
+START
 LOADER		lda <RETURN
 		sta INITAD
 		lda >RETURN
